@@ -51,6 +51,11 @@ resource "aws_instance" "bioc_devel" {
   #
   key_name = "${var.key_name}"
 
+  root_block_device {
+    volume_size = "${var.boot_disk_size}"
+  }
+
+  user_data = "${file("startup.sh")}"
 }
 
 output "ip" {
