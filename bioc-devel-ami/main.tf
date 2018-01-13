@@ -37,7 +37,7 @@ resource "aws_instance" "bioc_devel" {
   ami = "ami-e3883599"
   instance_type = "${var.instance_type}"
   vpc_security_group_ids = ["${aws_security_group.rstudio.id}"]
-
+  user_data = "${file("userdata.sh")}"
   tags {
     Name = "bioc_devel_ami"
     Use  = "daily_work"
