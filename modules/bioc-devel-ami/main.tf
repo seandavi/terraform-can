@@ -7,6 +7,7 @@ provider "aws" {
 resource "aws_security_group" "rstudio" {
   name = "rstudio"
 
+  # rstudio
   ingress {
     from_port = 80
     to_port = 80
@@ -17,6 +18,14 @@ resource "aws_security_group" "rstudio" {
   ingress {
     from_port = 22
     to_port = 22
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # shiny server
+  ingress {
+    from_port = 3838
+    to_port = 3838
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -39,7 +48,7 @@ resource "aws_instance" "bioc_devel" {
   vpc_security_group_ids = ["${aws_security_group.rstudio.id}"]
   user_data = "${file("${path.module}/userdata.sh")}"
   tags {
-    Name = "${var.instance_name}-${count-index}"
+    Name = "${var.instance_name}-${count.index}"
     Use  = "daily_work"
     Category = "science"
   }
