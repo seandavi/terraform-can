@@ -1,6 +1,6 @@
 variable "instance_type" {
   description = "The instance type"
-  default = "m5.xlarge"
+  default = "r4.xlarge"
 }
 
 variable "instance_name" {
