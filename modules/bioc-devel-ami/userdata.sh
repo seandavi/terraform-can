@@ -19,5 +19,7 @@ echo 'export PATH="/home/ubuntu/miniconda/bin:$PATH"' >> /home/ubuntu/.bashrc
 chown -R ubuntu:ubuntu /home/ubuntu/miniconda
 sudo R_LIBS_USER=/usr/local/lib/R/library Rscript -e 'install.packages(c("shiny","R6","httr"),repos="http://cloud.r-project.org/",lib="/usr/local/lib/R/library",dependencies=TRUE,Ncpus=32)'
 sudo apt-get install git
-cd /srv/shiny-server
-sudo git clone https://gist.github.com/79d902e3c8124fc90d41820b541071f2.git register
+sudo git clone https://github.com/seandavi/terraform-can
+cp -r terraform-can/modules/bioc-devel-ami/scripts/register /srv/shiny-server/
+sudo R_LIBS_USER=/usr/local/lib/R/library Rscript terraform-can/modules/bioc-devel-ami/scripts/bootstrap_users.R
+
