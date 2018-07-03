@@ -1,6 +1,6 @@
 variable "instance_type" {
   description = "The instance type"
-  default = "r4.xlarge"
+  default = "r4.8xlarge"
 }
 
 variable "instance_name" {
@@ -10,7 +10,7 @@ variable "instance_name" {
 
 variable "key_name" {
   description = "This is the default port on which jupyter is running"
-  default = "CSHLData.2015"
+  default = "EveryDay"
 }
 
 variable "count" {

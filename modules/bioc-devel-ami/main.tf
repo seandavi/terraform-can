@@ -4,8 +4,8 @@ provider "aws" {
   profile                 = "ec2"
 }
 
-resource "aws_security_group" "rstudio" {
-  name = "rstudio"
+resource "aws_security_group" "rstudio-terraform" {
+  name = "rstudio-terraform"
 
   # rstudio
   ingress {
@@ -42,10 +42,13 @@ resource "aws_security_group" "rstudio" {
 
 
 resource "aws_instance" "bioc_devel" {
-  ami = "ami-e3883599"
+  ami = "ami-8033baff"
   count = "${var.count}"
   instance_type = "${var.instance_type}"
-  vpc_security_group_ids = ["${aws_security_group.rstudio.id}"]
+  vpc_security_group_ids = ["${aws_security_group.rstudio-terraform.id}"]
+  root_block_device {
+        volume_size = 1000
+  }
   user_data = "${file("${path.module}/userdata.sh")}"
   tags {
     Name = "${var.instance_name}-${count.index}"
