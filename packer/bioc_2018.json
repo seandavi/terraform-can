@@ -1,0 +1,45 @@
+{
+    "variables": {
+	"profile": "default",
+        "region":         "us-east-1"
+    },
+    "builders": [
+        {
+            "access_key": "{{user `aws_access_key`}}",
+            "ami_name": "bioc_2018-{{timestamp}}",
+            "instance_type": "r4.xlarge",
+            "region": "us-east-1",
+            "secret_key": "{{user `aws_secret_key`}}",
+            "source_ami_filter": {
+		"filters": {
+		    "virtualization-type": "hvm",
+		    "name": "Bioc 3.8 R 3.5.1",
+		    "root-device-type": "ebs"
+		},
+		"owners": ["555219204010"],
+		"most_recent": true
+            },
+            "ssh_username": "ubuntu",
+            "type": "amazon-ebs",
+	    "ami_groups": ["all"],
+	    "launch_block_device_mappings": [
+		{
+		    "device_name": "/dev/sda1",
+		    "volume_size": 100,
+		    "volume_type": "gp2",
+		    "delete_on_termination": true
+		}
+	    ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline":[
+                "Rscript -e 'BiocManager::install(\"remotes\")'",
+                "Rscript -e 'options(Ncpus=10); BiocManager::install(\"Bioconductor/BiocWorkshops\")'",
+		"Rscript -e 'options(Ncpus=10); BiocManager::install(\"Bioconductor/BiocWorkshops\")'"
+            ]
+        }
+    ]
+}
