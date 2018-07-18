@@ -4,7 +4,7 @@ AMIs using [packer](https://www.packer.io/intro/getting-started/build-image.html
 # Available configurations
 
 | Name | Base Image | Json |
-|------+------------+------|
+| ---- | ---------- | ---- |
 | "bioc_2018-{{timestamp}}" | "name": "Bioc 3.8 R 3.5.1" | bioc_2018.json |
 
 
