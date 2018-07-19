@@ -6,8 +6,8 @@
     "builders": [
         {
             "access_key": "{{user `aws_access_key`}}",
-            "ami_name": "bioc_2018-{{timestamp}}",
-            "instance_type": "r4.xlarge",
+            "ami_name": "Bioconductor_Conference_2018-{{timestamp}}",
+            "instance_type": "c5.4xlarge",
             "region": "us-east-1",
             "secret_key": "{{user `aws_secret_key`}}",
             "source_ami_filter": {
@@ -20,12 +20,14 @@
 		"most_recent": true
             },
             "ssh_username": "ubuntu",
+	    "spot_price": "auto",
+	    "spot_price_auto_product": "Linux/UNIX",
             "type": "amazon-ebs",
 	    "ami_groups": ["all"],
 	    "launch_block_device_mappings": [
 		{
 		    "device_name": "/dev/sda1",
-		    "volume_size": 100,
+		    "volume_size": 128,
 		    "volume_type": "gp2",
 		    "delete_on_termination": true
 		}
@@ -37,8 +39,11 @@
             "type": "shell",
             "inline":[
                 "Rscript -e 'BiocManager::install(\"remotes\")'",
-                "Rscript -e 'options(Ncpus=10); BiocManager::install(\"Bioconductor/BiocWorkshops\")'",
-		"Rscript -e 'options(Ncpus=10); BiocManager::install(\"Bioconductor/BiocWorkshops\")'"
+                "Rscript -e 'options(Ncpus=16); BiocManager::install(\"Bioconductor/BiocWorkshops\")'",
+		"Rscript -e 'options(Ncpus=16); BiocManager::install(\"Bioconductor/BiocWorkshops\")'",
+		"sudo mkdir /data",
+		"sudo chown ubuntu:ubuntu /data",
+		"cd /data; wget https://starbuck1.s3.amazonaws.com/sradb/SRAmetadb.sqlite.gz; gunzip SRAmetadb.sqlite.gz"
             ]
         }
     ]
