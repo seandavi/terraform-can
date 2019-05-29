@@ -1,7 +1,6 @@
 provider "aws" {
   region                  = "us-east-1"
   shared_credentials_file = "/Users/sdavis2/.aws/credentials"
-  profile                 = "ec2"
 }
 
 resource "aws_security_group" "rstudio-terraform" {
@@ -42,19 +41,14 @@ resource "aws_security_group" "rstudio-terraform" {
 
 
 resource "aws_instance" "bioc_devel" {
-  ami = "ami-8033baff"
-  count = "${var.count}"
+  ami = "ami-0a313d6098716f372"
+  count = "${var.instance_count}"
   instance_type = "${var.instance_type}"
   vpc_security_group_ids = ["${aws_security_group.rstudio-terraform.id}"]
   root_block_device {
         volume_size = 1000
   }
   user_data = "${file("${path.module}/userdata.sh")}"
-  tags {
-    Name = "${var.instance_name}-${count.index}"
-    Use  = "daily_work"
-    Category = "science"
-  }
 
   # The name of our SSH keypair you've created and downloaded
   # from the AWS console.

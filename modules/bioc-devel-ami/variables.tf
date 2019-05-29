@@ -13,7 +13,7 @@ variable "key_name" {
   default = "EveryDay"
 }
 
-variable "count" {
+variable "instance_count" {
   description = "The number of instances to start"
   default = 1
 }
