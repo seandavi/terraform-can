@@ -8,9 +8,9 @@ function apt-get1() { while fuser -s /var/lib/dpkg/lock || fuser -s /var/lib/dpk
 echo 'www-port=8080' | sudo tee /etc/rstudio/rserver.conf
 sudo rstudio-server restart || true
 sudo bash -c 'while fuser -s /var/lib/dpkg/lock || fuser -s /var/lib/apt/lists/lock || fuser -s /var/lib/dpkg/lock-frontend ; do echo "apt-get is waiting for the lock release ..."; sleep 5; done; /usr/bin/apt-get update'
-sudo bash -c 'while fuser -s /var/lib/dpkg/lock || fuser -s /var/lib/apt/lists/lock || fuser -s /var/lib/dpkg/lock-frontend ; do echo "apt-get is waiting for the lock release ..."; sleep 5; done; /usr/bin/apt-get install -y apt-transport-https ca-certificates curl software-properties-common cwltool hisat2'
+sudo bash -c 'while fuser -s /var/lib/dpkg/lock || fuser -s /var/lib/apt/lists/lock || fuser -s /var/lib/dpkg/lock-frontend ; do echo "apt-get is waiting for the lock release ..."; sleep 5; done; /usr/bin/apt-get install -y apt-transport-https ca-certificates curl software-properties-common cwltool hisat2 pandoc pandoc-citeproc'
 Rscript -e "options(Ncpus=32); BiocManager::install(c('rmarkdown', 'webshot'))"
-Rscript -e "options(Ncpus=32); BiocManager::install('hubentu/BioC19CWL')"
+Rscript -e "options(Ncpus=32); BiocManager::install('hubentu/BioC19CWL', build=TRUE, build_opts='', force=TRUE)"
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo bash -c 'while fuser -s /var/lib/dpkg/lock || fuser -s /var/lib/apt/lists/lock || fuser -s /var/lib/dpkg/lock-frontend ; do echo "apt-get is waiting for the lock release ..."; sleep 5; done; add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"'
 sudo bash -c 'while fuser -s /var/lib/dpkg/lock || fuser -s /var/lib/apt/lists/lock || fuser -s /var/lib/dpkg/lock-frontend ; do echo "apt-get is waiting for the lock release ..."; sleep 5; done; /usr/bin/apt-get update'
